@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title th:text="${title}">title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <body>
+    <p>User検索</p>
+    <form action="/user/search" method="post">
+        <label>ID:<input class="input" type="text" name="id"></label><br>
+        <div><input class="search" type="submit" value="検索"/></div>
+    </form>
+    <form action="/user/search" method="post">
+        <div><input class="list" type="submit" name="showList" value="一覧表示"/></div>
+    </form>
+
+    <div th:if="${user} !=null" th:object="${user}">
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>名前</th>
+            </tr>
+            <tr>
+                <td th:text="*{id}">id</td>
+                <td th:text="*{name}">名前</td>
+            </tr>
+        </table>
+    </div>
+
+        <div th:if="${userList} !=null">
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>名前</th>
+            </tr>
+            <tr th:each="user:${userList}" th:object="${user}">
+                <td th:text="*{id}">id</td>
+                <td th:text="*{name}">名前</td>
+            </tr>
+        </table>
+    </div>
+  </body>
+</html>
