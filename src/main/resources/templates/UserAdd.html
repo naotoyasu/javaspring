@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title th:text="${title}">title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <body>
+    <p>ユーザ登録</p>
+    <div th:if="${msg} != null" th:object="${msg}">
+	    th:text="${msg}"
+    </div>
+
+    <form th:action="@{/userAdmin/Top}" method="post">
+        <label>社員番号:<input  type="text" name="employeeNumber" ></label><br>
+        <label>名前:<input type="text" name="name"> </label><br>
+        <label>パスワード:<input type="password" name="password"> </label><br>
+        <label>パスワード(確認用):<input type="password" name="passwordChk"> </label><br>
+
+		<select name="departmentId" >
+	         <option  th:each="department:${userForm.departmentList}"
+	             th:text="${department.departmentName}"
+	             th:value="${department.departmentId}">
+		</select>
+    <div><input type="submit" name="userAddSub" value="登録"/></div>
+    </form>
+
+  </body>
+</html>
