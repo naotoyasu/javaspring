@@ -9,26 +9,26 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import com.example.S001.entity.Department;
-import com.example.S001.entity.User;
+import com.example.S001.entity.Account;
 import com.example.S001.form.UserForm;
 import com.example.S001.mapper.DepartmentMapper;
-import com.example.S001.mapper.UserMapper;
+import com.example.S001.mapper.AccountMapper;
 
 @Service
 public class UserAdminService {
 	@Autowired
-	UserMapper userMapper;
+	AccountMapper userMapper;
 
 	@Autowired
 	DepartmentMapper departmentMapper;
 
-	public User findByEmployeeNumber(Integer employeeNumber) {
-		User user = userMapper.findByEmployeeNumber(employeeNumber);
+	public Account findByEmployeeNumber(String employeeNumber) {
+		Account user = userMapper.findByEmployeeNumber(employeeNumber);
 		return  user;
 	}
 
     //全件取得
-    public List<User> getUserList(){
+    public List<Account> getUserList(){
         return this.userMapper.findAll();
     }
 
@@ -55,7 +55,7 @@ public class UserAdminService {
     	}
 
     	//社員番号が登録済みかチェック
-    	User user = findByEmployeeNumber(userForm.getEmployeeNumber());
+    	Account user = findByEmployeeNumber(userForm.getEmployeeNumber());
     	if (!Objects.isNull(user)) {
     		msg .add("既に登録済みです");
     	}

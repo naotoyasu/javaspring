@@ -3,12 +3,12 @@ package com.example.S001.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.S001.mapper.UserMapper;
+import com.example.S001.mapper.AccountMapper;
 
 @Service
 public class UserService {
     @Autowired
-    UserMapper userMapper;
+    AccountMapper userMapper;
 
 //    //1件検索
 //    public User findById(Integer id) {

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.example.S001.entity.Department;
-import com.example.S001.entity.User;
+import com.example.S001.entity.Account;
 import com.example.S001.form.UserForm;
 import com.example.S001.service.UserAdminService;
 
@@ -55,7 +55,7 @@ public class UserAdminConrtoller {
 
     	//userform（formクラス）がnullじゃなかったら1件検索
         if(userForm.getEmployeeNumber() != null) {
-            User user = userAdminService.findByEmployeeNumber(userForm.getEmployeeNumber());
+            Account user = userAdminService.findByEmployeeNumber(userForm.getEmployeeNumber());
             model.addAttribute("user", user);
         }
 

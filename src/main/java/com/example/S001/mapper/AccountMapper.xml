@@ -3,26 +3,30 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.S001.mapper.UserMapper">
-    <select id="findByEmployeeNumber" resultType="com.example.S001.entity.User">
+    <select id="findByEmployeeNumber" resultType="com.example.S001.entity.Account">
         SELECT
             EMPLOYEE_NUMBER,
-            NAME
+            NAME,
+            DEPARTMENT_ID,
+            PASSWORD,
+            ROLE
          FROM
-            sampledb.user
+            sampledb.account
          WHERE
             EMPLOYEE_NUMBER = #{employeeNumber}
     </select>
-    <select id="findAll" resultType="com.example.S001.entity.User">
+    <select id="findAll" resultType="com.example.S001.entity.Account">
         SELECT
-            id,
-            name,
-            password
+            EMPLOYEE_NUMBER,
+            NAME,
+            DEPARTMENT_ID,
+            ROLE
          FROM
-            sampledb.user
+            sampledb.account
     </select>
 
     <insert id="userInsert" parameterType="com.example.S001.form.UserForm">
-        INSERT INTO sampledb.user
+        INSERT INTO sampledb.account
             (EMPLOYEE_NUMBER, DEPARTMENT_ID, NAME,PASSWORD)
             values
             (

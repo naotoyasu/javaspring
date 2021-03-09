@@ -3,16 +3,16 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.S001.entity.User;
+import com.example.S001.entity.Account;
 import com.example.S001.form.UserForm;
 
 @Mapper
-public interface UserMapper {
+public interface AccountMapper {
 	//1件検索
-	User findByEmployeeNumber(Integer employeeNumber);
+	Account findByEmployeeNumber(String employeeNumber);
 
 	//全権検索
-	List<User> findAll();
+	List<Account> findAll();
 
 	//登録
 	int userInsert(UserForm userForm);

@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class UserForm {
-	private Integer employeeNumber;
+	private String employeeNumber;
 	private String name;
 	private Integer departmentId;
 	private String departmentName;
