@@ -10,19 +10,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.example.S001.entity.Department;
 import com.example.S001.entity.Account;
+import com.example.S001.entity.Department;
 import com.example.S001.form.UserForm;
-import com.example.S001.service.UserAdminService;
+import com.example.S001.service.AdminUserService;
 
 /**
  * ユーザ管理画面コントローラ
  */
 @Controller
-public class UserAdminConrtoller {
+public class AdminUserConrtoller {
 
 	@Autowired
-    UserAdminService userAdminService;
+    AdminUserService adminUserService;
 
 
 	/**
@@ -30,15 +30,15 @@ public class UserAdminConrtoller {
 	 * @param userForm 入出力用ユーザフォーム
 	 * @param showList
 	 * @param model モデル
-	 * @retur 表示画面（userAdminTop）
+	 * @retur 表示画面（AdminUserTop）
 	 */
-	@RequestMapping("/userAdmin/Top")
+	@RequestMapping("/AdminUser/Top")
     public String index(UserForm userForm, String showList, Model model) {
 
         //タイトル
         model.addAttribute("title", "ユーザ管理画面");
 
-        return "userAdminTop";
+        return "AdminUserTop";
 
     }
 
@@ -48,19 +48,19 @@ public class UserAdminConrtoller {
      * 検索ボタン押下時
      * @param userForm 入出力用フォーム
      * @param model モデル
-     * @return 表示画面（userAdminTop）
+     * @return 表示画面（AdminUserTop）
      */
-    @RequestMapping(value = "/userAdmin/Top", params = "userSerch", method = RequestMethod.POST)
+    @RequestMapping(value = "/AdminUser/Top", params = "userSerch", method = RequestMethod.POST)
     public String userSerch (UserForm userForm, Model model) {
 
     	//userform（formクラス）がnullじゃなかったら1件検索
         if(userForm.getEmployeeNumber() != null) {
-            Account user = userAdminService.findByEmployeeNumber(userForm.getEmployeeNumber());
+            Account user = adminUserService.findByEmployeeNumber(userForm.getEmployeeNumber());
             model.addAttribute("user", user);
         }
 
 
-    	return "userAdminTop";
+    	return "AdminUserTop";
 
     }
 
@@ -70,12 +70,12 @@ public class UserAdminConrtoller {
      * @param model モデル
      * @return 表示画面（UserAdd）
      */
-    @RequestMapping(value = "/userAdmin/Top", params = "userAdd", method = RequestMethod.POST)
+    @RequestMapping(value = "/AdminUser/Top", params = "userAdd", method = RequestMethod.POST)
     public String userAdd (UserForm userForm, Model model) {
 
     	//部署名リストを取得
         model.addAttribute("title", "ユーザ新規登録");
-    	List<Department> departmentList = userAdminService.getDepartment();
+    	List<Department> departmentList = adminUserService.getDepartment();
 
 
     	userForm.setDepartmentList(departmentList);
@@ -97,21 +97,21 @@ public class UserAdminConrtoller {
      * @param model モデル
      * @return 表示画面（Top画面）
      */
-    @RequestMapping(value = "/userAdmin/Top", params = "userAddSub", method = RequestMethod.POST)
+    @RequestMapping(value = "/AdminUser/Top", params = "userAddSub", method = RequestMethod.POST)
     public String userAddSub (UserForm userForm, Model model) {
 
     	//エラー判定メッセージ
     	List<String> errMsg = new ArrayList<String>();
 
     	//チェック
-    	errMsg = userAdminService.userCheck(userForm);
+    	errMsg = adminUserService.userCheck(userForm);
 
     	//パスワードのハッシュ化
-    	userForm.setPassword(userAdminService.passwordHash(userForm.getPassword()));
+    	userForm.setPassword(adminUserService.passwordHash(userForm.getPassword()));
 
     	//エラーがなければ登録
     	if (Objects.isNull(errMsg) || errMsg.isEmpty()) {
-        	userAdminService.userInsert(userForm);
+    		adminUserService.userInsert(userForm);
     	}
 
     	//エラーがあった場合は登録画面に返す
@@ -124,7 +124,7 @@ public class UserAdminConrtoller {
         	return "userAdd";
 
     	}
-    	return "redirect:/userAdmin/Top";
+    	return "redirect:/AdminUser/Top";
 
     }
 

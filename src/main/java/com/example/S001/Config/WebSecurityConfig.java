@@ -1,12 +1,17 @@
 package com.example.S001.Config;
 
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+	@Autowired
+	AuthenticationUserDetailsService userDetailsService;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -24,10 +29,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //          .formLogin()
 //            // ログイン処理のURL
 //            .loginPage("/login")
-//            // usernameのパラメタ名
-//            .usernameParameter("username")
+            // usernameのパラメタ名
+            .usernameParameter("employeeNumber")
 //            // passwordのパラメタ名
-//            .passwordParameter("password")
+            .passwordParameter("password")
 //            .permitAll()
 //        .and()
 //          // ログアウト処理の設定
@@ -44,17 +49,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         ;
     }
 
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-	PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    auth.inMemoryAuthentication()
-    // ユーザ名'user', パスワード'user',ロール'USER'のユーザを追加
-//    .withUser("user").password("user").roles("USER")
-//    .and()
-//    // ユーザ名'admin', パスワード'admin',ロール'ADMIN'のユーザを追加
-//    .withUser("admin").password("admin").roles("ADMIN");
-      .withUser("user").password(encoder.encode("password")).roles("USER")
-      .and()
-      .withUser("admin").password(encoder.encode("adminpassword")).roles("ADMIN");
+	@Bean
+	PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
+//    public PasswordEncoder passwordEncoder(){
+//        return NoOpPasswordEncoder.getInstance();
+//    }
+
 }

@@ -10,7 +10,7 @@ public class UserDetailsImpl extends User {
 
     private final Account account;
 	  public UserDetailsImpl(Account account) {
-	        super(account.getName(), account.getPassword(), AuthorityUtils
+	        super(account.getEmployeeNumber(), account.getPassword(), AuthorityUtils
 	                .createAuthorityList("ROLE_USER"));
 	        this.account = account;
 	    }

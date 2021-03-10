@@ -8,14 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
-import com.example.S001.entity.Department;
 import com.example.S001.entity.Account;
+import com.example.S001.entity.Department;
 import com.example.S001.form.UserForm;
-import com.example.S001.mapper.DepartmentMapper;
 import com.example.S001.mapper.AccountMapper;
+import com.example.S001.mapper.DepartmentMapper;
 
 @Service
-public class UserAdminService {
+public class AdminUserService {
 	@Autowired
 	AccountMapper userMapper;
 
@@ -71,6 +71,10 @@ public class UserAdminService {
 
     public String passwordHash(String password) {
     	String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
+
+    	//先頭に「{bcrypt}」がついてないと以下が発生する
+    	//java.lang.IllegalArgumentException: There is no PasswordEncoder mapped for the id "null"
+    	hashed = "{bcrypt}"+hashed;
     	return  hashed;
     }
 

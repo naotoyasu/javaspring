@@ -11,11 +11,11 @@ import com.example.S001.entity.Account;
 @Service
 public class UserDetailsServiceImple implements UserDetailsService {
 	@Autowired
-	UserAdminService userAdminServie;
+	AdminUserService adminUserServie;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Account account = userAdminServie.findByEmployeeNumber(username);
+		Account account = adminUserServie.findByEmployeeNumber(username);
 		return new UserDetailsImpl(account);
 	}
 
