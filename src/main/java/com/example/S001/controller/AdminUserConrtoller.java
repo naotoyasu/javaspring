@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -98,8 +101,11 @@ public class AdminUserConrtoller {
      * @return 表示画面（Top画面）
      */
     @RequestMapping(value = "/AdminUser/Top", params = "userAddSub", method = RequestMethod.POST)
-    public String userAddSub (UserForm userForm, Model model) {
+    public String userAddSub (@Valid UserForm userForm, BindingResult result,Model model) {
 
+    	if(result.hasErrors()) {
+    		return "userAdd";
+    	}
     	//エラー判定メッセージ
     	List<String> errMsg = new ArrayList<String>();
 

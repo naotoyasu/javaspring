@@ -53,8 +53,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-//    public PasswordEncoder passwordEncoder(){
-//        return NoOpPasswordEncoder.getInstance();
-//    }
 
 }

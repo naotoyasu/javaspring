@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title th:text="${title}">title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <body>
+    <p>ユーザ画面</p>
+    <form th:action="@{/User/Top}" method="post">
+        <input type="submit" name="addQuestion" value="問題を登録する"/>
+        <div><input type="submit" name="startQuestion" value="学習をする"/></div>
+    </form>
+  </body>
+</html>

@@ -4,23 +4,41 @@
     <title th:text="${title}">title</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   </head>
-  <body>
+  <body th:object="${userForm}">
     <p>ユーザ登録</p>
-    <div th:if="${msg} != null" th:object="${msg}">
-	    th:text="${msg}"
-    </div>
-
+    <ul>
+        <li th:each="msgvalue : ${msg}">
+            <span th:text="${msgvalue}">Error message</span>
+        </li>
+    </ul>
     <form th:action="@{/AdminUser/Top}" method="post">
-        <label>社員番号:<input  type="text" name="employeeNumber" ></label><br>
-        <label>名前:<input type="text" name="name"> </label><br>
-        <label>パスワード:<input type="password" name="password"> </label><br>
-        <label>パスワード(確認用):<input type="password" name="passwordChk"> </label><br>
+        <div>
+        	<label>社員番号:<input  type="text" name="employeeNumber" th:field="*{employeeNumber}" ></label><br>
+        	<span th:if="${#fields.hasErrors('employeeNumber')}" th:errors="*{employeeNumber}" style="color: red"></span>
+        </div>
 
-		<select name="departmentId" >
-	         <option  th:each="department:${userForm.departmentList}"
-	             th:text="${department.departmentName}"
-	             th:value="${department.departmentId}">
-		</select>
+        <div>
+        	<label>名前:<input type="text" name="name" th:field="*{name}"> </label><br>
+        	<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red"></span>
+        </div>
+
+        <div>
+        	<label>パスワード:<input type="password" name="password" th:field="*{password}"> </label><br>
+        	<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red"></span>
+        </div>
+
+        <div>
+        	<label>パスワード(確認用):<input type="password" name="passwordChk" th:field="*{passwordChk}"> </label><br>
+        	<span th:if="${#fields.hasErrors('passwordChk')}" th:errors="*{passwordChk}" style="color: red"></span>
+		</div>
+
+		<div>
+			<select name="departmentId" >
+	        	 <option  th:each="department:*{departmentList}"
+	            	 th:text="${department.departmentName}"
+	             	th:value="${department.departmentId}" th:field="*{departmentId}">
+			</select>
+		</div>
     <div><input type="submit" name="userAddSub" value="登録"/></div>
     </form>
 
