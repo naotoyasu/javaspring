@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.S001.entity.Department;
+import com.example.S001.entity.DepartmentMaster;
 
 @Mapper
 public interface DepartmentMapper {
-	List<Department> getDepartment();
+	List<DepartmentMaster> getDepartment();
 
 }

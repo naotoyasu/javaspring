@@ -6,9 +6,9 @@
   </head>
   <body>
     <p>ユーザ画面</p>
-    <form th:action="@{/User/Top}" method="post">
+    <form th:action="@{/User/Top}" method="get">
         <input type="submit" name="addQuestion" value="問題を登録する"/>
-        <div><input type="submit" name="startQuestion" value="学習をする"/></div>
+        <input type="submit" name="startQuestion" value="学習をする"/>
     </form>
   </body>
 </html>

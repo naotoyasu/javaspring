@@ -8,6 +8,6 @@
             DEPARTMENT_ID,
             DEPARTMENT_NAME
          FROM
-            sampledb.departmentmaster
+            sampledb.department_master
     </select>
 </mapper>

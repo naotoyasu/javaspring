@@ -5,29 +5,29 @@
 <mapper namespace="com.example.S001.mapper.AccountMapper">
     <select id="findByEmployeeNumber" resultType="com.example.S001.entity.Account">
         SELECT
-            EMPLOYEE_NUMBER,
-            NAME,
-            DEPARTMENT_ID,
-            PASSWORD,
-            ROLE
+            employee_number,
+            name,
+            department_id,
+            password,
+            role
          FROM
             sampledb.account
          WHERE
-            EMPLOYEE_NUMBER = #{employeeNumber}
+            employee_number = #{employeeNumber}
     </select>
     <select id="findAll" resultType="com.example.S001.entity.Account">
         SELECT
-            EMPLOYEE_NUMBER,
-            NAME,
-            DEPARTMENT_ID,
-            ROLE
+            employee_number,
+            name,
+            department_id,
+            role
          FROM
             sampledb.account
     </select>
 
     <insert id="userInsert" parameterType="com.example.S001.form.UserForm">
         INSERT INTO sampledb.account
-            (EMPLOYEE_NUMBER, DEPARTMENT_ID, NAME,PASSWORD)
+            (employee_number, department_id, name,password)
             values
             (
             #{employeeNumber},

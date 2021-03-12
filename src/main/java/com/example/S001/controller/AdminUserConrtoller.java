@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.example.S001.entity.Account;
-import com.example.S001.entity.Department;
+import com.example.S001.entity.DepartmentMaster;
 import com.example.S001.form.UserForm;
 import com.example.S001.service.AdminUserService;
 
@@ -78,7 +78,7 @@ public class AdminUserConrtoller {
 
     	//部署名リストを取得
         model.addAttribute("title", "ユーザ新規登録");
-    	List<Department> departmentList = adminUserService.getDepartment();
+    	List<DepartmentMaster> departmentList = adminUserService.getDepartment();
 
 
     	userForm.setDepartmentList(departmentList);

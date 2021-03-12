@@ -9,7 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import com.example.S001.entity.Account;
-import com.example.S001.entity.Department;
+import com.example.S001.entity.DepartmentMaster;
 import com.example.S001.form.UserForm;
 import com.example.S001.mapper.AccountMapper;
 import com.example.S001.mapper.DepartmentMapper;
@@ -34,8 +34,8 @@ public class AdminUserService {
 
     //部署名リストの取得
 
-    public List<Department> getDepartment(){
-    	List<Department> departmentList = departmentMapper.getDepartment();
+    public List<DepartmentMaster> getDepartment(){
+    	List<DepartmentMaster> departmentList = departmentMapper.getDepartment();
     	return departmentList;
     }
 
@@ -57,7 +57,7 @@ public class AdminUserService {
     	//社員番号が登録済みかチェック
     	Account user = findByEmployeeNumber(userForm.getEmployeeNumber());
     	if (!Objects.isNull(user)) {
-    		msg .add("既に登録済みです");
+    		msg .add("既に登録済みのユーザです");
     	}
 
     	return msg;
