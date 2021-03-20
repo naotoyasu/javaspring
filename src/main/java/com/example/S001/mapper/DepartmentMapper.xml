@@ -3,10 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.S001.mapper.DepartmentMapper">
-    <select id="getDepartment" resultType="com.example.S001.entity.Department">
+    <select id="getDepartment" resultType="com.example.S001.entity.DepartmentMaster">
         SELECT
-            DEPARTMENT_ID,
-            DEPARTMENT_NAME
+            department_id,
+            department_name
          FROM
             sampledb.department_master
     </select>

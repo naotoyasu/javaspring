@@ -3,30 +3,65 @@
   <head>
     <title th:text="${title}">title</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   </head>
   <body>
     <p>ユーザ管理画面</p>
-    <form th:action="@{/AdminUser/Top}" method="post">
-        <label>社員番号:<input  type="text" class="UserForm" name="employeeNumber"></label>
+    <form th:action="@{/AdminUser/Top}" method="post" th:object="${userForm}">
+        <label>社員番号:<input  type="text" name="employeeNumber"></label>
         <input type="submit" name="userSerch" value="検索"/>
         <div><input type="submit" name="userAdd" value="登録"/></div>
     </form>
 
-
-
-     <div th:if="${user} !=null">
-	     <table>
+    <div th:if="${account} !=null" th:object="${account}">
+        <table>
             <tr>
                 <th>社員番号</th>
                 <th>名前</th>
             </tr>
-            <tr th:each="user:${user}" th:object="${user}">
-                <td th:text="*{employeeNumber}">id</td>
+            <tr>
+                <td th:text="*{employeeNumber}">社員番号</td>
                 <td th:text="*{name}">名前</td>
             </tr>
         </table>
     </div>
+    <div th:if="${accountList} !=null" th:object="${accountList}">
+    <input name="accountList" th:text="${accountList}">
+        <table>
+            <tr>
+                <th>社員番号</th>
+                <th>名前</th>
+            </tr>
+            <tr th:each="account:${accountList}" >
+                <td th:text="${account.employeeNumber}">id</td>
+                <td th:text="${account.name}">名前</td>
+            </tr>
+        </table>
+    </div>
 
+	</body>
 
-  </body>
+<script th:inline="javascript">
+$(document).ready(function() {
+	var accountList=$("input[name='accountList']").val()
+	if (accountList == null){
+		alert("null");
+	}else{
+		alert("nullではない");
+	}
+});
+</script>
+
+<!--
+    <script type="text/javascript">
+    $(document).ready(function() {
+    	alert("scriptstart");
+    	if (account !== null){
+		 alert("accountはNULL");
+    	}else{
+			alert("acountはNULLではない");
+    	}
+    })
+	</script>
+ -->
 </html>

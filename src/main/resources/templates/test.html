@@ -3,6 +3,7 @@
   <head>
     <title th:text="${title}">title</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   </head>
   <body>
     <p>テスト用</p>
@@ -13,5 +14,32 @@
         <div><input type="submit" name="testGet" value="GET"/></div>
     </form>
 
+<select class="mainselect" name="line_list">
+  <option selected="selected" class="msg">--路線選択--</option>
+  <option value="odpt.Station:TokyoMetro.Ginza" class="ginza">銀座線</option>
+  <option value="odpt.Station:TokyoMetro.Marunouchi" class="marunouchi">丸ノ内線（荻窪〜池袋）</option>
+  <option value="odpt.Station:TokyoMetro.Marunouchi" class="marunouchibranch">丸ノ内線（方南町〜中野坂上）</option>
+  <option value="odpt.Station:TokyoMetro.Hibiya" class="hibiya">日比谷線</option>
+  <option value="odpt.Station:TokyoMetro.Tozai"  class="tozai">東西線</option>
+  <option value="odpt.Station:TokyoMetro.Chiyoda" class="chiyoda">千代田線（代々木上原〜綾瀬）</option>
+  <option value="odpt.Station:TokyoMetro.Chiyoda" class="chiyodabranch">千代田線（綾瀬〜北綾瀬）</option>
+  <option value="odpt.Station:TokyoMetro.Yurakucho" class="yurakucho">有楽町線</option>
+  <option value="odpt.Station:TokyoMetro.Hanzomon" class="hanzomon">半蔵門線</option>
+  <option value="odpt.Station:TokyoMetro.Namboku" class="namboku">南北線</option>
+  <option value="odpt.Station:TokyoMetro.Fukutoshin" class="fukutoshin">副都心線</option>
+</select>
   </body>
+
+  <script>
+  	$(function(){
+		$("input").css("color","red");
+		//配列
+		var arrayList=[
+			["a","b","c","d","e","f"],
+			["1","2","3","4","5","6"]
+			];
+		alert(arrayList[0][1]);
+	});
+
+  </script>
 </html>

@@ -57,9 +57,14 @@ public class AdminUserConrtoller {
     public String userSerch (UserForm userForm, Model model) {
 
     	//userform（formクラス）がnullじゃなかったら1件検索
-        if(userForm.getEmployeeNumber() != null) {
-            Account user = adminUserService.findByEmployeeNumber(userForm.getEmployeeNumber());
-            model.addAttribute("user", user);
+        if(!userForm.getEmployeeNumber().isEmpty()) {
+            Account account = adminUserService.findByEmployeeNumber(userForm.getEmployeeNumber());
+            model.addAttribute("account", account);
+        }else {
+        	//nullなら全件検索
+        	List<Account> accountList = adminUserService.getAcountList();
+            model.addAttribute("accountList", accountList);
+
         }
 
 

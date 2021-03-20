@@ -14,30 +14,39 @@
         <div><input class="list" type="submit" name="showList" value="一覧表示"/></div>
     </form>
 
-    <div th:if="${user} !=null" th:object="${user}">
+    <div th:if="${account} !=null" th:object="${account}">
         <table>
             <tr>
                 <th>ID</th>
                 <th>名前</th>
             </tr>
             <tr>
-                <td th:text="*{id}">id</td>
+                <td th:text="*{employeeNumber}">id</td>
                 <td th:text="*{name}">名前</td>
             </tr>
         </table>
     </div>
 
-        <div th:if="${userList} !=null">
+        <div th:if="${accountList} !=null">
         <table>
             <tr>
                 <th>ID</th>
                 <th>名前</th>
             </tr>
-            <tr th:each="user:${userList}" th:object="${user}">
-                <td th:text="*{id}">id</td>
-                <td th:text="*{name}">名前</td>
+            <tr th:each="account:${accountList}" th:object="${accountList}">
+                <td th:text="${account.employeeNumber}">id</td>
+                <td th:text="${account.name}">名前</td>
             </tr>
         </table>
     </div>
   </body>
+    <script type="text/javascript" th:inline="javascript">
+    $(document).ready(function() {
+    /*<![CDATA[*/
+		var myname = /*[[${account.name}]]*/";"
+		alert(myname);
+	/*]]>*/
+    });
+	</script>
+
 </html>

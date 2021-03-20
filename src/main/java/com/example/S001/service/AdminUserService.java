@@ -17,19 +17,19 @@ import com.example.S001.mapper.DepartmentMapper;
 @Service
 public class AdminUserService {
 	@Autowired
-	AccountMapper userMapper;
+	AccountMapper accountMapper;
 
 	@Autowired
 	DepartmentMapper departmentMapper;
 
 	public Account findByEmployeeNumber(String employeeNumber) {
-		Account user = userMapper.findByEmployeeNumber(employeeNumber);
-		return  user;
+		Account account = accountMapper.findByEmployeeNumber(employeeNumber);
+		return  account;
 	}
 
     //全件取得
-    public List<Account> getUserList(){
-        return this.userMapper.findAll();
+    public List<Account> getAcountList(){
+        return this.accountMapper.findAll();
     }
 
     //部署名リストの取得
@@ -66,7 +66,7 @@ public class AdminUserService {
     public void userInsert(UserForm userForm){
 
     	//登録処理
-    	int count = userMapper.userInsert(userForm);
+    	int count = accountMapper.userInsert(userForm);
     }
 
     public String passwordHash(String password) {

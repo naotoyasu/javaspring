@@ -3,6 +3,8 @@
   <head>
     <title th:text="${title}">title</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
   </head>
   <body th:object="${userForm}">
     <p>ユーザ登録</p>
@@ -14,22 +16,22 @@
     <form th:action="@{/AdminUser/Top}" method="post">
         <div>
         	<label>社員番号:<input  type="text" name="employeeNumber" th:field="*{employeeNumber}" ></label><br>
-        	<span th:if="${#fields.hasErrors('employeeNumber')}" th:errors="*{employeeNumber}" style="color: red"></span>
+        	<span th:if="${#fields.hasErrors('employeeNumber')}" th:errors="*{employeeNumber}"></span>
         </div>
 
         <div>
         	<label>名前:<input type="text" name="name" th:field="*{name}"> </label><br>
-        	<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red"></span>
+        	<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
         </div>
 
         <div>
         	<label>パスワード:<input type="password" name="password" th:field="*{password}"> </label><br>
-        	<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red"></span>
+        	<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" ></span>
         </div>
 
         <div>
         	<label>パスワード(確認用):<input type="password" name="passwordChk" th:field="*{passwordChk}"> </label><br>
-        	<span th:if="${#fields.hasErrors('passwordChk')}" th:errors="*{passwordChk}" style="color: red"></span>
+        	<span th:if="${#fields.hasErrors('passwordChk')}" th:errors="*{passwordChk}" ></span>
 		</div>
 
 		<div>
@@ -43,4 +45,5 @@
     </form>
 
   </body>
+  
 </html>

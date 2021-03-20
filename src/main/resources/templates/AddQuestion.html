@@ -5,8 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   </head>
   <body>
-    <p>ユーザ管理画面</p>
-    <form th:action="@{/AdminUser/Top}" method="post">
+    <p>問題登録画面</p>
+    <form th:action="@{/AddQuestion}" method="post">
         <label>社員番号:<input  type="text" class="UserForm" name="employeeNumber"></label>
         <input type="submit" name="userSerch" value="検索"/>
         <div><input type="submit" name="userAdd" value="登録"/></div>
