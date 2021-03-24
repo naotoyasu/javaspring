@@ -3,28 +3,63 @@
   <head>
     <title th:text="${title}">title</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
   </head>
-  <body>
+  <body th:object="${form}">
     <p>問題登録画面</p>
     <form th:action="@{/AddQuestion}" method="post">
-        <label>社員番号:<input  type="text" class="UserForm" name="employeeNumber"></label>
-        <input type="submit" name="userSerch" value="検索"/>
-        <div><input type="submit" name="userAdd" value="登録"/></div>
+		<p>
+			<select name="qualification" onchange="qualificationChange()" >
+	        	 <option  th:each="qualification:*{qualificationList}"
+	            	 th:text="${qualification.qualification}">
+			</select>
+			<select id="varsion">
+
+			</select>
+		</p>
+        <p>問題文</p>
+        <input  type="text" style="width:800px;height:200px;"class="QuestionForm" name="question">
+        <p>
+        	ａ<input type="radio" name="anserList" value="1"/>
+        	<input  type="text" size="100" name="anserList1">
+        </p>
+        <p>
+        	ｂ<input type="radio" name="anserList" value="2"/>
+        	<input  type="text" size="100" name="anserList2">
+        </p>
+        <p>
+        	ｃ<input type="radio" name="anserList" value="3"/>
+        	<input  type="text" size="100" name="anserList3">
+        </p>
+        <p>
+        	ｄ<input type="radio" name="anserList" value="4"/>
+        	<input  type="text" size="100" name="anserList4">
+        </p>
+        <p>解説</p>
+        <input  type="text" style="width:800px;height:200px;"class="QuestionForm" name="comment">
+        <p>
+        	<input type="submit" name="back" value="戻る"/>
+        	<input type="submit" name="entry" value="登録"/>
+        </p>
+        <input type="text" id="qualificationList" th:value="*{qualificationListJson}" >
     </form>
-
-     <div th:if="${user} !=null">
-	     <table>
-            <tr>
-                <th>社員番号</th>
-                <th>名前</th>
-            </tr>
-            <tr th:each="user:${user}" th:object="${user}">
-                <td th:text="*{employeeNumber}">id</td>
-                <td th:text="*{name}">名前</td>
-            </tr>
-        </table>
-    </div>
-
-
   </body>
+
+<script th:inline="javascript">
+function qualificationChange(){
+	//var qualificationList=$("input[name='qualificationList'].value")
+	var qualificationList = document.getElementById("qualificationList").value;
+	alert (qualificationList);
+	if (qualificationList == null){
+		alert("null");
+	}else{
+		alert("else");
+		for (var i = 0,len=qualificationList.length;i<len;i++){
+//			alert(qualificationList[i]);
+		}
+	}
+}
+</script>
+
 </html>

@@ -1,9 +1,12 @@
 package com.example.S001.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.S001.mapper.AccountMapper;
+import com.example.S001.entity.QualificationMaster;
+import com.example.S001.mapper.QualificationMapper;
 
 
 /**
@@ -12,6 +15,11 @@ import com.example.S001.mapper.AccountMapper;
 @Service
 public class UserService {
     @Autowired
-    AccountMapper userMapper;
+    QualificationMapper qualificationMapper;
+
+    public List<QualificationMaster> getQualification() {
+    	List<QualificationMaster> qualificationList = qualificationMapper.getQualificationMaster();
+    	return qualificationList;
+    }
 
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.S001.mapper.QualificationMapper">
+    <select id="getQualificationMaster" resultType="com.example.S001.entity.QualificationMaster">
+        SELECT
+            qualificatio_seq_no,
+            qualification,
+            varsion
+         FROM
+            sampledb.qualification_master
+    </select>
+</mapper>

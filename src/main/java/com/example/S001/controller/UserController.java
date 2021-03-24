@@ -8,9 +8,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.example.S001.entity.Account;
+import com.example.S001.entity.QualificationMaster;
+import com.example.S001.form.QuestionForm;
 import com.example.S001.form.UserForm;
 import com.example.S001.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * 個人ユーザ画面コントローラ
@@ -23,6 +25,7 @@ public class UserController {
 
 	@RequestMapping("/UserTop")
     public String index(UserForm userForm, String showList, Model model) {
+
 
         //タイトル
         model.addAttribute("title", "ユーザ画面");
@@ -37,22 +40,23 @@ public class UserController {
      * @param model モデル
      * @return 表示画面（AdminUserTop）
      */
-    @RequestMapping(value = "/AdminUser/Top", params = "userSerch", method = RequestMethod.POST)
-    public String userSerch (UserForm userForm, Model model) {
+    @RequestMapping(value = "/UserTop", params = "addQuestion", method = RequestMethod.POST)
+    public String userSerch (QuestionForm questionForm, Model model) {
 
-    	//userform（formクラス）がnullじゃなかったら1件検索
-        if(!userForm.getEmployeeNumber().isEmpty()) {
-            Account account = userService.findByEmployeeNumber(userForm.getEmployeeNumber());
-            model.addAttribute("account", account);
-        }else {
-        	//nullなら全件検索
-        	List<Account> accountList = userService.getAcountList();
-            model.addAttribute("accountList", accountList);
+    	//資格情報の取得
+    	List<QualificationMaster> qualificationList = userService.getQualification();
+    	ObjectMapper mapper = new ObjectMapper();
+    	String qualificationListJson = null;
+    	try {
+    	qualificationListJson = mapper.writeValueAsString(qualificationList);
+    	}catch(Exception e){
+    		e.printStackTrace(); 
+    	}
+    	questionForm.setQualificationList(qualificationList);
+    	questionForm.setQualificationListJson(qualificationListJson);
+    	model.addAttribute("form", questionForm);
 
-        }
-
-
-    	return "AdminUserTop";
+    	return "AddQuestion";
 
     }
 
