@@ -21,5 +21,4 @@ public class UserService {
     	List<QualificationMaster> qualificationList = qualificationMapper.getQualificationMaster();
     	return qualificationList;
     }
-
 }

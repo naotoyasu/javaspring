@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title th:text="${title}">title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  </head>
+  <body th:object="${form}">
+    <form th:action="@{/AddQuestion}" method="post">
+        <input type="text" id="test" th:value="*{testJson}" >
+    </form>
+  </body>
+
+<script th:inline="javascript">
+$(function(){
+	var obj = document.getElementById("test").value;
+
+	parseobj = JSON.parse(obj);
+
+	for (var item in parseobj) {
+	    console.log(parseobj[item]['id']);
+	    console.log(parseobj[item]['name']);
+	}
+})
+</script>
+
+</html>

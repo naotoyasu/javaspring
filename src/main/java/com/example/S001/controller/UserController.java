@@ -41,7 +41,7 @@ public class UserController {
      * @return 表示画面（AdminUserTop）
      */
     @RequestMapping(value = "/UserTop", params = "addQuestion", method = RequestMethod.POST)
-    public String userSerch (QuestionForm questionForm, Model model) {
+    public String userSerch (QuestionForm form, Model model) {
 
     	//資格情報の取得
     	List<QualificationMaster> qualificationList = userService.getQualification();
@@ -50,11 +50,11 @@ public class UserController {
     	try {
     	qualificationListJson = mapper.writeValueAsString(qualificationList);
     	}catch(Exception e){
-    		e.printStackTrace(); 
+    		e.printStackTrace();
     	}
-    	questionForm.setQualificationList(qualificationList);
-    	questionForm.setQualificationListJson(qualificationListJson);
-    	model.addAttribute("form", questionForm);
+    	form.setQualificationList(qualificationList);
+    	form.setQualificationListJson(qualificationListJson);
+    	model.addAttribute("form", form);
 
     	return "AddQuestion";
 
