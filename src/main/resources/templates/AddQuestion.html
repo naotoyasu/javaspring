@@ -8,36 +8,44 @@
   </head>
   <body th:object="${form}">
     <p>問題登録画面</p>
+    <ul>
+        <li th:each="msgvalue : ${msg}">
+            <span th:text="${msgvalue}">message</span>
+        </li>
+    </ul>
     <form th:action="@{/AddQuestion}" method="post">
 		<p>
-			<select id="qualification" onchange="qualificationChange()" ></select>
-			<select id="varsion"></select>
+			<select id="qualification" name="qualification" onchange="qualificationChange()" ></select>
+			<select id="varsion" name="varsion"></select>
 		</p>
         <p>問題文</p>
-        <input  type="text" style="width:800px;height:200px;"class="QuestionForm" name="question">
+	    <p><input  type="text" style="width:800px;height:200px;"class="QuestionForm" name="question" ></p>
+       	<p th:if="${#fields.hasErrors('question')}" th:errors="*{question}" />
+
+       	<p th:if="${#fields.hasErrors('answer')}" th:errors="*{answer}" />
         <p>
-        	ａ<input type="radio" name="anserList" value="1"/>
-        	<input  type="text" size="100" name="anserList1">
-        </p>
+        	ａ<input type="radio" name="answer" value="a" th:field="*{answer}"/>
+        	<input  type="text" size="100" name="answerList1" th:field="*{answerList1}"></p>
+       	<p th:if="${#fields.hasErrors('answerList1')}" th:errors="*{answerList1}" />
         <p>
-        	ｂ<input type="radio" name="anserList" value="2"/>
-        	<input  type="text" size="100" name="anserList2">
-        </p>
+        	ｂ<input type="radio" name="answer" value="b"/>
+        	<input  type="text" size="100" name="answerList2" th:field="*{answerList2}"></p>
+       	<p th:if="${#fields.hasErrors('answerList2')}" th:errors="*{answerList2}" />
         <p>
-        	ｃ<input type="radio" name="anserList" value="3"/>
-        	<input  type="text" size="100" name="anserList3">
-        </p>
+        	ｃ<input type="radio" name="answer" value="c"/>
+        	<input  type="text" size="100" name="answerList3" th:field="*{answerList3}"></p>
+	       	<p th:if="${#fields.hasErrors('answerList3')}" th:errors="*{answerList3}" />
         <p>
-        	ｄ<input type="radio" name="anserList" value="4"/>
-        	<input  type="text" size="100" name="anserList4">
-        </p>
+        	ｄ<input type="radio" name="answer" value="d"/>
+        	<input  type="text" size="100" name="answerList4" th:field="*{answerList4}"></p>
+	       	<p th:if="${#fields.hasErrors('answerList4')}" th:errors="*{answerList4}" />
         <p>解説</p>
-        <input  type="text" style="width:800px;height:200px;"class="QuestionForm" name="comment">
+        <input  type="text" style="width:800px;height:200px;"class="QuestionForm" name="comment" th:field="*{comment}">
         <p>
         	<input type="submit" name="back" value="戻る"/>
         	<input type="submit" name="entry" value="登録"/>
         </p>
-        <input type="hidden" id="qualificationList" th:value="*{qualificationListJson}" >
+        <input type="hidden" id="qualificationList" th:field="*{qualificationListJson}" >
     </form>
   </body>
 
@@ -48,9 +56,9 @@ $(document).ready(function() {
 
 	let obj = document.getElementById("qualificationList").value;
 	parseobj = JSON.parse(obj);
-	var array =["---"];
+	var array =[];
 	for (var item in parseobj) {
-		if (array.indexOf(parseobj[item]['qualification']) >= 0){
+		if (array.length > 0 && array.indexOf(parseobj[item]['qualification']) >= 0){
 		}else{
 			array.push(parseobj[item]['qualification']);
 		}
@@ -69,9 +77,8 @@ function qualificationChange(){
 	let qualification = document.getElementById("qualification").value
 	var array =[];
 	array.push("---");
-	console.log(array);
 	for (var item in parseobj) {
-		if (parseobj[item]['qualification'] == qualification){
+		if (parseobj[item]['qualification'] == qualification && parseobj[item]['version']!=="null"){
 			array.push(parseobj[item]['varsion']);
 		}
 	}

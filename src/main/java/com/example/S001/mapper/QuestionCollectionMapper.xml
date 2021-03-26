@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.S001.mapper.QuestionCollectionMapper">
+
+    <insert id="insertQuestionCollection" parameterType="com.example.S001.form.QuestionForm">
+        INSERT INTO sampledb.question_collection
+            (qualification_seq_no, question, answer_list1,answer_list2,answer_list3,answer_list4,answer_no,comment)
+            values
+            (
+            #{qualificationSeqNo},
+            #{question},
+            #{answerList1},
+            #{answerList2},
+            #{answerList3},
+            #{answerList4},
+            #{answerNo},
+            #{comment,jdbcType=VARCHAR}
+            )
+    </insert>
+</mapper>

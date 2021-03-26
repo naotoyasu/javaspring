@@ -18,8 +18,17 @@ public class SampleController {
     public String index(UserForm userForm, String showList, Model model) {
 
         //タイトル
-        model.addAttribute("title", "テスト");
-        return "test";
+        model.addAttribute("title", "テスト2");
+        return "redirect:test2";
+
+    }
+
+    @RequestMapping("/test2")
+    public String test2(UserForm userForm, String showList, Model model) {
+
+        //タイトル
+        model.addAttribute("title", "テスト3");
+        return "test2";
 
     }
 
@@ -32,11 +41,11 @@ public class SampleController {
     }
 
     //Getメソッド
-    @RequestMapping(value = "/test",  method = RequestMethod.GET)
-    public String userSerch (UserForm userForm, Model model) {
-
-    	return "test";
-
-    }
+//    @RequestMapping(value = "/test",  method = RequestMethod.GET)
+//    public String userSerch (UserForm userForm, Model model) {
+//
+//    	return "test";
+//
+//    }
 
 }

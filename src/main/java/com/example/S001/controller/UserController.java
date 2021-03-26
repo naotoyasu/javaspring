@@ -1,10 +1,15 @@
 package com.example.S001.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -43,6 +48,13 @@ public class UserController {
     @RequestMapping(value = "/UserTop", params = "addQuestion", method = RequestMethod.POST)
     public String userSerch (QuestionForm form, Model model) {
 
+    	return "redirect:/AddQuestion";
+
+    }
+
+	@RequestMapping("/AddQuestion")
+    public String addQuestion (QuestionForm form, Model model) {
+
     	//資格情報の取得
     	List<QualificationMaster> qualificationList = userService.getQualification();
     	ObjectMapper mapper = new ObjectMapper();
@@ -56,8 +68,33 @@ public class UserController {
     	form.setQualificationListJson(qualificationListJson);
     	model.addAttribute("form", form);
 
-    	return "AddQuestion";
+    	//エラー判定メッセージ
+    	List<String> errMsg = new ArrayList<String>();
+    	errMsg = null;
+    	model.addAttribute("msg", errMsg);
+
+    	return "/AddQuestion";
 
     }
 
+    /**
+     * 登録ボタン押下時
+     * @param userForm 入出力用フォーム
+     * @param model モデル
+     * @return 表示画面（AdminUserTop）
+     */
+	@RequestMapping(value = "/AddQuestion", params = "entry", method = RequestMethod.POST)
+    public String entry (@Valid @ModelAttribute("form") QuestionForm form, BindingResult result,Model model) {
+
+
+    	if(result.hasErrors()) {
+    		return "/AddQuestion";
+    	}
+
+    	//ユーザフォームに入力された内容でDB登録
+    	userService.entryQualification(form);
+
+    	return "redirect:/AddQuestion";
+
+    }
 }
