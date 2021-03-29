@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.example.S001.entity.QualificationMaster;
+import com.example.S001.form.LearningTopForm;
 import com.example.S001.form.QuestionForm;
 import com.example.S001.form.UserForm;
 import com.example.S001.service.UserService;
@@ -93,6 +94,61 @@ public class UserController {
 
     	//ユーザフォームに入力された内容でDB登録
     	userService.entryQualification(form);
+
+    	return "redirect:/AddQuestion";
+
+    }
+
+    /**
+     * 学習ボタン押下時
+     * @param userForm 入出力用フォーム
+     * @param model モデル
+     * @return 表示画面（AdminUserTop）
+     */
+    @RequestMapping(value = "/UserTop", params = "learning", method = RequestMethod.POST)
+    public String learning () {
+
+    	return "redirect:/learningTop";
+
+    }
+
+	@RequestMapping("/learningTop")
+    public String learningTop (LearningTopForm form, Model model) {
+
+    	//資格情報の取得
+    	List<QualificationMaster> qualificationList = userService.getQualification();
+    	ObjectMapper mapper = new ObjectMapper();
+    	String qualificationListJson = null;
+    	try {
+    	qualificationListJson = mapper.writeValueAsString(qualificationList);
+    	}catch(Exception e){
+    		e.printStackTrace();
+    	}
+    	form.setQualificationList(qualificationList);
+    	form.setQualificationListJson(qualificationListJson);
+    	model.addAttribute("form", form);
+
+    	return "/learningTop";
+
+    }
+
+    /**
+     * 学習開始押下時
+     * @param userForm 入出力用フォーム
+     * @param model モデル
+     * @return 表示画面（AdminUserTop）
+     */
+	@RequestMapping(value = "/learningTop", params = "learningStart", method = RequestMethod.POST)
+    public String learningStart (@Valid @ModelAttribute("form") LearningTopForm form, BindingResult result,Model model) {
+
+
+    	if(result.hasErrors()) {
+    		return "/learningTop";
+    	}
+
+    	//選択した内容で問題取得
+    	//(ここでは10問ずつとする)
+    	userService.getQuestionCollection(form);
 
     	return "redirect:/AddQuestion";
 

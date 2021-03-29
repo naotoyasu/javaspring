@@ -19,4 +19,55 @@
             #{comment,jdbcType=VARCHAR}
             )
     </insert>
+
+    <select id="selectStarOne" resultType="com.example.S001.entity.QuestionCollection">
+        SELECT
+            qc_seq_no,
+            question,
+            answer_list1,
+            answer_list2,
+            answer_list3,
+            answer_list4,
+            answer_no,
+            comment
+         FROM
+            sampledb.question_collection
+         WHERE
+            qualification_seq_no = #{qualificationSeqNo} and
+            qc_seq_no not in  (select qc_seq_no from sampledb.true_false_history where employee_number=#{employeeNumber} and star in("★★★","★★"))
+    </select>
+
+    <select id="selectStarAll" resultType="com.example.S001.entity.QuestionCollection">
+        SELECT
+            qc_seq_no,
+            question,
+            answer_list1,
+            answer_list2,
+            answer_list3,
+            answer_list4,
+            answer_no,
+            comment
+         FROM
+            sampledb.question_collection
+         WHERE
+            qualification_seq_no = #{qualificationSeqNo}
+    </select>
+
+    <select id="selectStar" resultType="com.example.S001.entity.QuestionCollection">
+        SELECT
+            qc_seq_no,
+            question,
+            answer_list1,
+            answer_list2,
+            answer_list3,
+            answer_list4,
+            answer_no,
+            comment
+         FROM
+            sampledb.question_collection
+         WHERE
+            qualification_seq_no = #{qualificationSeqNo} and
+            qc_seq_no in  (select qc_seq_no from sampledb.true_false_history where employee_number=#{employeeNumber} and star = #{selectStar})
+    </select>
+
 </mapper>

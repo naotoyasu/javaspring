@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/template}">
+  <head>
+    <title th:text="${title}">title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  </head>
+  <body th:object="${form}">
+    <p>学習TOP画面</p>
+    <ul>
+        <li th:each="msgvalue : ${msg}">
+            <span th:text="${msgvalue}">message</span>
+        </li>
+    </ul>
+    <form th:action="@{/learningTop}" method="post">
+		<p>
+			<select id="qualification" name="qualification" onchange="qualificationChange()" ></select>
+			<select id="varsion" name="varsion"></select>
+		</p>
+        <p>出題範囲</p>
+		<select name="selectStar">
+			<option value="ALL">全て</option>
+			<option value="★">★</option>
+			<option value="★★">★★</option>
+			<option value="★★★">★★★</option>
+		</select>
+		<p>★★★：3回連続正解した問題</p>
+		<p>★★：2回連続正解または、★★★から1回間違い</p>
+		<p>★：上記以外</p>
+        <p>
+        	<input type="submit" name="back" value="戻る"/>
+        	<input type="submit" name="learningStart" value="学習開始"/>
+        </p>
+        <input type="hidden" id="qualificationList" th:field="*{qualificationListJson}" >
+    </form>
+  </body>
+
+<script type="text/javascript" src="./User.js" ></script>
+
+
+</html>

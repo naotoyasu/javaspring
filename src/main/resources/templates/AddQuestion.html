@@ -1,5 +1,7 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/template}">
   <head>
     <title th:text="${title}">title</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -19,7 +21,9 @@
 			<select id="varsion" name="varsion"></select>
 		</p>
         <p>問題文</p>
-	    <p><input  type="text" style="width:800px;height:200px;"class="QuestionForm" name="question" ></p>
+	    <p><input  type="text" style="width:800px;height:200px;"class="QuestionForm" th:field="*{question}"
+	     th:classappend="${#fields.hasErrors('question')}?'is-invalid'"/>
+		</p>
        	<p th:if="${#fields.hasErrors('question')}" th:errors="*{question}" />
 
        	<p th:if="${#fields.hasErrors('answer')}" th:errors="*{answer}" />
@@ -49,51 +53,6 @@
     </form>
   </body>
 
-<script th:inline="javascript">
-//初期画面表示時に起動
-//資格の重複を削除
-$(document).ready(function() {
-
-	let obj = document.getElementById("qualificationList").value;
-	parseobj = JSON.parse(obj);
-	var array =[];
-	for (var item in parseobj) {
-		if (array.length > 0 && array.indexOf(parseobj[item]['qualification']) >= 0){
-		}else{
-			array.push(parseobj[item]['qualification']);
-		}
-	}
-	 for(var i=0;i<array.length;i++){
-		let op = document.createElement("option");
-		op.text = array[i];
-		document.getElementById("qualification").appendChild(op);
-	 }
-})
-
-//資格を選択したときに、資格に合わせたVersion選択を作成
-function qualificationChange(){
-	let obj = document.getElementById("qualificationList").value;
-	parseobj = JSON.parse(obj);
-	let qualification = document.getElementById("qualification").value
-	var array =[];
-	array.push("---");
-	for (var item in parseobj) {
-		if (parseobj[item]['qualification'] == qualification && parseobj[item]['version']!=="null"){
-			array.push(parseobj[item]['varsion']);
-		}
-	}
-	//selectの初期化
-	var list = document.getElementById("varsion");
-	for( i = list.length -1; i >= 0; i-- ) {
-		list.remove(i);
-	}
-	//selectに再設定
-	for(var i=0;i<array.length;i++){
-		let op = document.createElement("option");
-		op.text = array[i];
-		document.getElementById("varsion").appendChild(op);
-	}
-}
-</script>
+<script type="text/javascript" src="./User.js" ></script>
 
 </html>
