@@ -45,4 +45,5 @@ function qualificationChange(){
 		op.text = array[i];
 		document.getElementById("varsion").appendChild(op);
 	}
+
 }

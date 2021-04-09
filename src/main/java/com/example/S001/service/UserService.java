@@ -1,5 +1,6 @@
 package com.example.S001.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -8,13 +9,33 @@ import org.springframework.stereotype.Service;
 
 import com.example.S001.entity.QualificationMaster;
 import com.example.S001.entity.QuestionCollection;
+import com.example.S001.entity.TrueFalseHistory;
 import com.example.S001.form.LearningTopForm;
 import com.example.S001.form.QuestionForm;
 import com.example.S001.mapper.QualificationMapper;
 import com.example.S001.mapper.QuestionCollectionMapper;
+import com.example.S001.mapper.TrueFalseHistoryMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * 個人ユーザ用サービスクラス
+ */
+/**
+ * @author toot
+ *
+ */
+/**
+ * @author toot
+ *
+ */
+/**
+ * @author toot
+ *
+ */
+/**
+ * @author toot
+ *
  */
 @Service
 public class UserService {
@@ -33,11 +54,23 @@ public class UserService {
     @Autowired
     QuestionCollectionMapper questionCollectionMapper;
 
+    @Autowired
+    TrueFalseHistoryMapper trueFalseHistoryMapper;
+
+    /**
+     * 資格マスタ取得
+     * @return 資格マスタ
+     */
     public List<QualificationMaster> getQualification() {
     	List<QualificationMaster> qualificationList = qualificationMapper.getQualificationMaster();
     	return qualificationList;
     }
 
+
+    /**
+     * 問題登録
+     * @param form 問題
+     */
     public void entryQualification(QuestionForm form) {
     	//正解を設定
     	form.setAnswerNo(form.getAnswer());
@@ -56,6 +89,11 @@ public class UserService {
 
     }
 
+    /**
+     * 問題取得メソッド
+     * @param form 学習内容選択フォーム
+     * @return 問題集（リスト）
+     */
     public List<QuestionCollection> getQuestionCollection(LearningTopForm form) {
 
     	//共通ヘルパーを使用して、ログイン中のユーザ名を取得
@@ -87,9 +125,10 @@ public class UserService {
     			break;
     	}
 
-    	//とりあえず10で固定
+    	//とりあえず5で固定
     	int maxList =5;
 
+    	//取得した問題をシャッフル
     	 Collections.shuffle(list);
 
     	 List<QuestionCollection> sbList;
@@ -102,7 +141,15 @@ public class UserService {
     	return sbList;
 
     }
-	private Integer getQualificationSeqNo(String selectQualification,String selectVertion ) {
+
+
+    /**
+     * 資格名とバージョンから資格シーケンスNoの取得
+     * @param selectQualification　資格名
+     * @param selectVertion　バージョン
+     * @return　資格シーケンスNo
+     */
+    private Integer getQualificationSeqNo(String selectQualification,String selectVertion ) {
 
     	//資格とversionから資格シーケンスNoを判定
     	Integer qualificatioSeqNo=0;
@@ -129,5 +176,100 @@ public class UserService {
 
 	}
 
+    /**
+     * Json変換
+     * @param object
+     * @return
+     */
+    public String getJson(Object object) {
 
+    	ObjectMapper mapper = new ObjectMapper();
+    	String JsonString = null;
+    	try {
+    		JsonString = mapper.writeValueAsString(object);
+    	}catch(Exception e){
+    		e.printStackTrace();
+    	}
+
+    	return JsonString;
+    }
+
+   public void setHistory(String json) {
+
+	   //JSONからJavaオブジェクトに変換
+	   ObjectMapper mapper = new ObjectMapper();
+	   	List<QuestionCollection> qcList = null;
+	   	try {
+	   		qcList = mapper.readValue(json,new TypeReference<List<QuestionCollection>>() {});
+	   	}catch(Exception e){
+	   		e.printStackTrace();
+	   	}
+
+
+    	//共通ヘルパーを使用して、ログイン中のユーザ名を取得
+        CommonHelper commonHelper = new CommonHelper();
+
+    	String employeeNumber = commonHelper.getUserName();
+
+	   	//インサート用List作成
+	   	List<TrueFalseHistory> historyList = new ArrayList<TrueFalseHistory>();
+
+	   	String swithStar;
+
+	   	//解答があっているか確認
+   		for (QuestionCollection qc: qcList) {
+   			TrueFalseHistory trueFalseHistory = new TrueFalseHistory();
+
+   			//ユーザ
+   			trueFalseHistory.setEmployeeNumber(employeeNumber);
+
+   			//問題SEQ_NO
+   			trueFalseHistory.setQcSeqNo(qc.getQcSeqNo());
+
+   			swithStar=qc.getStar();
+   			if(swithStar == null) {
+   				swithStar ="－";
+   			}
+   			if(qc.getAnswerNo().equals(qc.getChooseAnswer())) {
+   				//正解　★を設定
+   				switch(swithStar) {
+   					case oneStar:
+   						trueFalseHistory.setStar(twoStar);
+   						break;
+   					case twoStar:
+   					case threeStar:
+   						trueFalseHistory.setStar(threeStar);
+   						break;
+   					default:
+   						trueFalseHistory.setStar(oneStar);
+   				}
+   			}else {
+   				//不正解　★を設定
+   				switch(swithStar) {
+					case oneStar:
+						trueFalseHistory.setStar("-");
+						break;
+					case twoStar:
+						trueFalseHistory.setStar(oneStar);
+						break;
+					case threeStar:
+						trueFalseHistory.setStar(twoStar);
+						break;
+					default:
+						trueFalseHistory.setStar("-");
+				}
+
+   			}
+
+   			//履歴リストに追加
+   			historyList.add(trueFalseHistory);
+   		}
+
+   		//インサート発行
+   		trueFalseHistoryMapper.insertTrueFalseHistory(historyList);
+
+
+
+
+   }
 }

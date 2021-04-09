@@ -10,7 +10,9 @@ public class QuestionCollection {
 	private String answerList2;
 	private String answerList3;
 	private String answerList4;
-	private String answer_no;
+	private String answerNo;
 	private String comment;
+	private String chooseAnswer;
+	private String star;
 
 }

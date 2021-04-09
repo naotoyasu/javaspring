@@ -23,13 +23,15 @@
         <p>出題範囲</p>
 		<select name="selectStar">
 			<option value="ALL">全て</option>
+			<option value="－">－</option>
 			<option value="★">★</option>
 			<option value="★★">★★</option>
 			<option value="★★★">★★★</option>
 		</select>
 		<p>★★★：3回連続正解した問題</p>
 		<p>★★：2回連続正解または、★★★から1回間違い</p>
-		<p>★：上記以外</p>
+		<p>★：1回正解または★★からの間違い</p>
+		<p>－：上記以外</p>
         <p>
         	<input type="submit" name="back" value="戻る"/>
         	<input type="submit" name="learningStart" value="学習開始"/>

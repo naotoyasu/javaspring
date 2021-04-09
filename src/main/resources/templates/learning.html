@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/template}">
+  <head>
+    <title th:text="${title}">title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  </head>
+  <body th:object="${form}">
+    <p>学習画面</p>
+    <ul>
+        <li th:each="msgvalue : ${msg}">
+            <span th:text="${msgvalue}">message</span>
+        </li>
+    </ul>
+    <form name ="form1" th:action="@{/learning}" method="post">
+        <p>問題文</p>
+	    <p><input disabled type="text" style="width:800px;height:200px;"class="QuestionForm" name="question"></p>
+        <p>
+        	ａ<input type="radio" name="answer" value="a" />
+        	<input  disabled type="text" size="100" name="answerList1"></p>
+        <p>
+        	ｂ<input type="radio" name="answer" value="b"/>
+        	<input  disabled type="text" size="100" name="answerList2"></p>
+        <p>
+        	ｃ<input type="radio" name="answer" value="c"/>
+        	<input  disabled type="text" size="100" name="answerList3"></p>
+        <p>
+        	ｄ<input type="radio" name="answer" value="d"/>
+        	<input  disabled type="text" size="100" name="answerList4"></p>
+        <p>解説</p>
+        <input  disabled type="text" style="width:800px;height:200px;"class="QuestionForm" name="comment">
+
+        <p>
+        	<input type="hidden" id="test" th:field="*{questionListJson}" >
+		</p>
+	    <input type="button" id="backbutton" value="前の問題へ" onclick="backQuestion()" />
+	    <input type="button" id="nextbutton" value="次の問題へ" onclick="nextQuestion()" />
+	   	<input type="submit" name="learningEnd" value="終了する"/>
+
+    </form>
+  </body>
+
+<script th:inline="javascript">
+var jsonObj;
+var qmax;
+var qnum;
+$(function(){
+	//初回問題(問題は必ず1問はある前提なので、判定はなし)
+	let obj = document.getElementById("test").value;
+	jsonObj = JSON.parse(obj);
+	//問題数をセット
+	qmax = Object.keys(jsonObj).length
+	qnum =1;
+	readquestion(qnum);
+})
+//次の問題押下
+function nextQuestion(){
+    //ボタン押下時に選択された解答を保存
+	jsonObj[qnum-1]['chooseAnswer'] =document.form1.answer.value
+
+	//次の問題
+	qnum++;
+
+    //次の問題を表示
+    readquestion(qnum);
+
+}
+
+//前の問題押下
+function backQuestion(){
+
+    //ボタン押下時に選択された解答を保存
+	jsonObj[qnum-1]['chooseAnswer'] =document.form1.answer.value
+
+	//前の問題
+	qnum--;
+
+    //前の問題を表示
+    readquestion(qnum);
+
+}
+
+function readquestion(dispQ){
+	//前のボタン活性・非活性制御
+	if(dispQ==1){
+		document.getElementById("backbutton").removeAttribute("required");
+		document.getElementById("backbutton").setAttribute("disabled", true);
+		document.getElementById("backbutton").style.color = "White";
+	}else{
+		document.getElementById("backbutton").removeAttribute("disabled");
+		document.getElementById("backbutton").setAttribute("required",true);
+		document.getElementById("backbutton").style.color = "black";
+	}
+
+	//次のボタン活性・非活性制御
+	if(dispQ==qmax){
+		document.getElementById("nextbutton").removeAttribute("required");
+		document.getElementById("nextbutton").setAttribute("disabled", true);
+		document.getElementById("nextbutton").style.color = "White";
+	}else{
+		document.getElementById("nextbutton").removeAttribute("disabled");
+		document.getElementById("nextbutton").setAttribute("required",true);
+		document.getElementById("nextbutton").style.color = "black";
+	}
+
+	//jsonを保存
+	document.getElementById("test").value = JSON.stringify(jsonObj);
+
+	//ラジオボタンを解除
+	offradio();
+
+	//問題表示
+	document.form1.question.value=jsonObj[dispQ-1]['question'];
+	document.form1.answerList1.value=jsonObj[dispQ-1]['answerList1'];
+	document.form1.answerList2.value=jsonObj[dispQ-1]['answerList2'];
+	document.form1.answerList3.value=jsonObj[dispQ-1]['answerList3'];
+	document.form1.answerList4.value=jsonObj[dispQ-1]['answerList4'];
+}
+function offradio() {
+	   var ElementsCount = document.form1.elements.length; // ラジオボタンの数
+	   for( i=0 ; i<ElementsCount ; i++ ) {
+		   document.form1.elements[i].checked = false;
+	   }
+}
+</script>
+</html>

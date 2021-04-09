@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.S001.mapper.TrueFalseHistoryMapper">
+
+	<insert id="insertTrueFalseHistory" parameterType="java.util.List">
+	    insert into sampledb.true_false_history
+	      (employee_number, qc_seq_no, star)
+	    values
+	    <foreach collection="trueFalseHistoryList" item="trueFalseHistory" separator=",">
+	    (
+	      #{trueFalseHistory.employeeNumber,jdbcType=VARCHAR},
+	      #{trueFalseHistory.qcSeqNo,jdbcType=INTEGER},
+	      #{trueFalseHistory.star,jdbcType=VARCHAR}
+	    )
+	    </foreach>
+	</insert>
+</mapper>

@@ -22,52 +22,70 @@
 
     <select id="selectStarOne" resultType="com.example.S001.entity.QuestionCollection">
         SELECT
-            qc_seq_no,
-            question,
-            answer_list1,
-            answer_list2,
-            answer_list3,
-            answer_list4,
-            answer_no,
-            comment
+            QC.qc_seq_no,
+            QC.question,
+            QC.answer_list1,
+            QC.answer_list2,
+            QC.answer_list3,
+            QC.answer_list4,
+            QC.answer_no,
+            QC.comment,
+            HIST.star
          FROM
-            sampledb.question_collection
+            sampledb.question_collection AS QC
+            LEFT OUTER JOIN
+            	(SELECT qc_seq_no,star FROM sampledb.true_false_history WHERE employee_number=#{employeeNumber}
+            	and true_false_seq_no
+            	in (select max(true_false_seq_no) from  sampledb.true_false_history group by employee_number,qc_seq_no)
+            	and star not in("★★★","★★")) AS HIST
+            ON QC.qc_seq_no = HIST.qc_seq_no
          WHERE
-            qualification_seq_no = #{qualificationSeqNo} and
-            qc_seq_no not in  (select qc_seq_no from sampledb.true_false_history where employee_number=#{employeeNumber} and star in("★★★","★★"))
+            qualification_seq_no = #{qualificationSeqNo}
     </select>
 
     <select id="selectStarAll" resultType="com.example.S001.entity.QuestionCollection">
-        SELECT
-            qc_seq_no,
-            question,
-            answer_list1,
-            answer_list2,
-            answer_list3,
-            answer_list4,
-            answer_no,
-            comment
+         SELECT
+            QC.qc_seq_no,
+            QC.question,
+            QC.answer_list1,
+            QC.answer_list2,
+            QC.answer_list3,
+            QC.answer_list4,
+            QC.answer_no,
+            QC.comment,
+            HIST.star
          FROM
-            sampledb.question_collection
+            sampledb.question_collection AS QC
+            LEFT OUTER JOIN
+            	(SELECT qc_seq_no,star FROM sampledb.true_false_history WHERE employee_number=#{employeeNumber}
+            	and true_false_seq_no
+            	in (select max(true_false_seq_no) from  sampledb.true_false_history group by employee_number,qc_seq_no)
+            	) AS HIST
+            ON QC.qc_seq_no = HIST.qc_seq_no
          WHERE
             qualification_seq_no = #{qualificationSeqNo}
     </select>
 
     <select id="selectStar" resultType="com.example.S001.entity.QuestionCollection">
         SELECT
-            qc_seq_no,
-            question,
-            answer_list1,
-            answer_list2,
-            answer_list3,
-            answer_list4,
-            answer_no,
-            comment
+            QC.qc_seq_no,
+            QC.question,
+            QC.answer_list1,
+            QC.answer_list2,
+            QC.answer_list3,
+            QC.answer_list4,
+            QC.answer_no,
+            QC.comment,
+            HIST.star
          FROM
-            sampledb.question_collection
+            sampledb.question_collection AS QC
+            INNER JOIN
+            	(SELECT qc_seq_no,star FROM sampledb.true_false_history WHERE employee_number=#{employeeNumber}
+            	and true_false_seq_no
+            	in (select max(true_false_seq_no) from  sampledb.true_false_history group by employee_number,qc_seq_no)
+            	and star = #{selectStar}) AS HIST
+            ON QC.qc_seq_no = HIST.qc_seq_no
          WHERE
-            qualification_seq_no = #{qualificationSeqNo} and
-            qc_seq_no in  (select qc_seq_no from sampledb.true_false_history where employee_number=#{employeeNumber} and star = #{selectStar})
+            qualification_seq_no = #{qualificationSeqNo}
     </select>
-
 </mapper>

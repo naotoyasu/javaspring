@@ -14,6 +14,7 @@
         <div><input type="submit" name="testGet" value="GET"/></div>
     </form>
 
+
 <select class="mainselect" name="line_list">
   <option selected="selected" class="msg">--路線選択--</option>
   <option value="odpt.Station:TokyoMetro.Ginza" class="ginza">銀座線</option>
@@ -29,4 +30,17 @@
   <option value="odpt.Station:TokyoMetro.Fukutoshin" class="fukutoshin">副都心線</option>
 </select>
   </body>
+<script th:inline="javascript">
+$(function(){
+	var obj = document.getElementById("test").value;
+
+	parseobj = JSON.parse(obj);
+
+	for (var item in parseobj) {
+	    console.log(parseobj[item]['id']);
+	    console.log(parseobj[item]['name']);
+	}
+})
+</script>
+
 </html>

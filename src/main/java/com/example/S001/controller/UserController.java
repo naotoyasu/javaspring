@@ -9,11 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.S001.entity.QualificationMaster;
+import com.example.S001.entity.QuestionCollection;
+import com.example.S001.form.LearningForm;
 import com.example.S001.form.LearningTopForm;
 import com.example.S001.form.QuestionForm;
 import com.example.S001.form.UserForm;
@@ -117,13 +122,8 @@ public class UserController {
 
     	//資格情報の取得
     	List<QualificationMaster> qualificationList = userService.getQualification();
-    	ObjectMapper mapper = new ObjectMapper();
-    	String qualificationListJson = null;
-    	try {
-    	qualificationListJson = mapper.writeValueAsString(qualificationList);
-    	}catch(Exception e){
-    		e.printStackTrace();
-    	}
+
+    	String qualificationListJson = userService.getJson(qualificationList);
     	form.setQualificationList(qualificationList);
     	form.setQualificationListJson(qualificationListJson);
     	model.addAttribute("form", form);
@@ -139,18 +139,58 @@ public class UserController {
      * @return 表示画面（AdminUserTop）
      */
 	@RequestMapping(value = "/learningTop", params = "learningStart", method = RequestMethod.POST)
-    public String learningStart (@Valid @ModelAttribute("form") LearningTopForm form, BindingResult result,Model model) {
+    public ModelAndView learningStart (@Valid @ModelAttribute("form") LearningTopForm form, BindingResult result,ModelAndView model,
+    		RedirectAttributes redirectAttributes) {
 
-
-    	if(result.hasErrors()) {
-    		return "/learningTop";
-    	}
 
     	//選択した内容で問題取得
     	//(ここでは10問ずつとする)
-    	userService.getQuestionCollection(form);
+    	List<QuestionCollection> questionList= userService.getQuestionCollection(form);
 
-    	return "redirect:/AddQuestion";
+    	redirectAttributes.addFlashAttribute("questionList",questionList);
+    	model.setViewName("redirect:/learning");
+    	return model;
 
     }
+
+    /**
+     * 学習開始
+     * @param userForm 入出力用フォーム
+     * @param model モデル
+     * @return 表示画面（AdminUserTop）
+     */
+	@GetMapping("/learning")
+    public String learning (Model model, ModelAndView modelAndView,LearningForm form) {
+
+		List<QuestionCollection> questionList = (List<QuestionCollection>)model.asMap().get("questionList");
+    	String questionListJson = userService.getJson(questionList);
+    	form.setQuestionListJson(questionListJson);
+
+        //タイトル
+        model.addAttribute("title", "学習ページ");
+		model.addAttribute("form",form);
+    	return "learning";
+
+    }
+
+    /**
+     * 学習終了ボタン押下時
+     * @param userForm 入出力用フォーム
+     * @param model モデル
+     * @return 表示画面（AdminUserTop）
+     */
+	@RequestMapping(value = "/learning", params = "learningEnd", method = RequestMethod.POST)
+    public String learningEnd (@Valid @ModelAttribute("form") LearningForm form, BindingResult result,ModelAndView model,
+    		RedirectAttributes redirectAttributes) {
+
+		String json = form.getQuestionListJson();
+
+		//履歴への登録処理
+		userService.setHistory(json);
+
+		return "redirect:/learningTop";
+
+    }
+
+
 }
