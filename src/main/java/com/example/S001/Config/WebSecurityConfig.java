@@ -34,18 +34,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //            // passwordのパラメタ名
             .passwordParameter("password")
 //            .permitAll()
-//        .and()
-//          // ログアウト処理の設定
-//          .logout()
-//            // ログアウト処理のURL
-//            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//            // ログアウト成功時の遷移先URL
-//            .logoutSuccessUrl("/login")
-//            // ログアウト時に削除するクッキー名
-//            .deleteCookies("JSESSIONID")
-//            // ログアウト時のセッション破棄を有効化
-//            .invalidateHttpSession(true)
-//            .permitAll()
+        .and()
+          // ログアウト処理の設定
+          .logout()
+            // ログアウト処理のURL
+//            .logoutRequestMatcher(new AntPathRequestMatcher("/UserTop"))
+            // ログアウト成功時の遷移先URL
+//            .logoutSuccessUrl("/UserTop")
+            // ログアウト時に削除するクッキー名
+            .deleteCookies("JSESSIONID")
+            // ログアウト時のセッション破棄を有効化
+            .invalidateHttpSession(true)
+            .permitAll()
         ;
     }
 

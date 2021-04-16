@@ -21,8 +21,8 @@
 			<select id="varsion" name="varsion"></select>
 		</p>
         <p>問題文</p>
-	    <p><input  type="text" style="width:800px;height:200px;"class="QuestionForm" th:field="*{question}"
-	     th:classappend="${#fields.hasErrors('question')}?'is-invalid'"/>
+	    <p><textarea style="width:800px;height:200px;" wrap="hard" class="QuestionForm" th:field="*{question}"
+	     th:classappend="${#fields.hasErrors('question')}?'is-invalid'"></textarea>
 		</p>
        	<p th:if="${#fields.hasErrors('question')}" th:errors="*{question}" />
 
@@ -44,13 +44,17 @@
         	<input  type="text" size="100" name="answerList4" th:field="*{answerList4}"></p>
 	       	<p th:if="${#fields.hasErrors('answerList4')}" th:errors="*{answerList4}" />
         <p>解説</p>
-        <input  type="text" style="width:800px;height:200px;"class="QuestionForm" name="comment" th:field="*{comment}">
+        <textarea style="width:800px;height:200px;"class="QuestionForm" name="comment" th:field="*{comment}"></textarea>
         <p>
         	<input type="submit" name="back" value="戻る"/>
         	<input type="submit" name="entry" value="登録"/>
         </p>
         <input type="hidden" id="qualificationList" th:field="*{qualificationListJson}" >
     </form>
+    <form role="form" id="logout" th:action="@{/logout}" method="post">
+    	<button type="submit">ログアウト</button>
+	</form>
+
   </body>
 
 <script type="text/javascript" src="./User.js" ></script>

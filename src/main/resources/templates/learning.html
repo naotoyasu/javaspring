@@ -17,7 +17,7 @@
     </ul>
     <form name ="form1" th:action="@{/learning}" method="post">
         <p>問題文</p>
-	    <p><input disabled type="text" style="width:800px;height:200px;"class="QuestionForm" name="question"></p>
+	    <p><textarea disabled style="width:800px;height:200px;"class="QuestionForm" name="question"></textarea></p>
         <p>
         	ａ<input type="radio" name="answer" value="a" />
         	<input  disabled type="text" size="100" name="answerList1"></p>
@@ -31,7 +31,7 @@
         	ｄ<input type="radio" name="answer" value="d"/>
         	<input  disabled type="text" size="100" name="answerList4"></p>
         <p>解説</p>
-        <input  disabled type="text" style="width:800px;height:200px;"class="QuestionForm" name="comment">
+        <textarea disabled  style="width:800px;height:200px;"class="QuestionForm" name="comment"></textarea>
 
         <p>
         	<input type="hidden" id="test" th:field="*{questionListJson}" >

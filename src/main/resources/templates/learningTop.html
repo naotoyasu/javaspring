@@ -38,6 +38,12 @@
         </p>
         <input type="hidden" id="qualificationList" th:field="*{qualificationListJson}" >
     </form>
+    <form role="form" id="logout" th:action="@{/logout}" method="post">
+    	<button type="submit">ログアウト</button>
+	</form>
+
+
+
   </body>
 
 <script type="text/javascript" src="./User.js" ></script>
