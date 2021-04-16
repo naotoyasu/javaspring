@@ -16,6 +16,7 @@
         </li>
     </ul>
     <form name ="form1" th:action="@{/learning}" method="post">
+    	履歴<input  disabled type="text" name="star">
         <p>問題文</p>
 	    <p><textarea disabled style="width:800px;height:200px;"class="QuestionForm" name="question"></textarea></p>
         <p>
@@ -30,6 +31,9 @@
         <p>
         	ｄ<input type="radio" name="answer" value="d"/>
         	<input  disabled type="text" size="100" name="answerList4"></p>
+
+        <p>解答</p>
+        <p><input  disabled type="text" name="answerNo"></p>
         <p>解説</p>
         <textarea disabled  style="width:800px;height:200px;"class="QuestionForm" name="comment"></textarea>
 
@@ -38,6 +42,7 @@
 		</p>
 	    <input type="button" id="backbutton" value="前の問題へ" onclick="backQuestion()" />
 	    <input type="button" id="nextbutton" value="次の問題へ" onclick="nextQuestion()" />
+	    <input type="button" id="nextbutton" value="解答を表示" onclick="showAnswer()" />
 	   	<input type="submit" name="learningEnd" value="終了する"/>
 
     </form>
@@ -118,7 +123,22 @@ function readquestion(dispQ){
 	document.form1.answerList2.value=jsonObj[dispQ-1]['answerList2'];
 	document.form1.answerList3.value=jsonObj[dispQ-1]['answerList3'];
 	document.form1.answerList4.value=jsonObj[dispQ-1]['answerList4'];
+	document.form1.answerNo.value=jsonObj[dispQ-1]['answerNo'];
+	document.form1.comment.value=jsonObj[dispQ-1]['comment'];
+	document.form1.star.value=jsonObj[dispQ-1]['star'];
+
+	//解答非表示
+	document.form1.answerNo.style.display='none';
+	document.form1.comment.style.display='none';
+
 }
+
+//解答表示
+function showAnswer() {
+	document.form1.answerNo.style.display='inline';
+	document.form1.comment.style.display='inline';
+}
+
 function offradio() {
 	   var ElementsCount = document.form1.elements.length; // ラジオボタンの数
 	   for( i=0 ; i<ElementsCount ; i++ ) {
