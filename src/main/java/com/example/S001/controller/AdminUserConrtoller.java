@@ -94,7 +94,7 @@ public class AdminUserConrtoller {
     	errMsg = null;
     	model.addAttribute("msg", errMsg);
 
-    	return "userAdd";
+    	return "UserAdd";
 
     }
 
@@ -132,7 +132,7 @@ public class AdminUserConrtoller {
         	model.addAttribute("userForm", userForm);
         	model.addAttribute("msg", errMsg);
 
-        	return "userAdd";
+        	return "UserAdd";
 
     	}
     	return "redirect:/AdminUser/Top";

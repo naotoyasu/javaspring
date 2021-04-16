@@ -41,7 +41,7 @@ public class UserController {
         //タイトル
         model.addAttribute("title", "ユーザ画面");
 
-        return "userTop";
+        return "UserTop";
 
     }
 
@@ -58,7 +58,13 @@ public class UserController {
 
     }
 
-	@RequestMapping("/AddQuestion")
+    /**
+     * 問題登録画面表示
+     * @param form 入力用フォーム
+     * @param model モデル
+     * @return 問題登録画面
+     */
+    @RequestMapping("/AddQuestion")
     public String addQuestion (QuestionForm form, Model model) {
 
     	//資格情報の取得
@@ -79,7 +85,7 @@ public class UserController {
     	errMsg = null;
     	model.addAttribute("msg", errMsg);
 
-    	return "/AddQuestion";
+    	return "AddQuestion";
 
     }
 
@@ -94,7 +100,7 @@ public class UserController {
 
 
     	if(result.hasErrors()) {
-    		return "/AddQuestion";
+    		return "AddQuestion";
     	}
 
     	//ユーザフォームに入力された内容でDB登録
@@ -105,6 +111,21 @@ public class UserController {
     }
 
     /**
+     * 問題登録画面からの戻るボタン押下時
+     * @param userForm 入出力用フォーム
+     * @param model モデル
+     * @return 表示画面（UserTop）
+     */
+	@RequestMapping(value = "/AddQuestion", params = "back", method = RequestMethod.POST)
+    public String AddquestionBack (@Valid @ModelAttribute("form") QuestionForm form, BindingResult result,Model model) {
+
+        //タイトル
+        model.addAttribute("title", "ユーザ画面");
+        return "UserTop";
+
+    }
+
+	/**
      * 学習ボタン押下時
      * @param userForm 入出力用フォーム
      * @param model モデル
@@ -128,7 +149,7 @@ public class UserController {
     	form.setQualificationListJson(qualificationListJson);
     	model.addAttribute("form", form);
 
-    	return "/learningTop";
+    	return "learningTop";
 
     }
 
@@ -154,6 +175,21 @@ public class UserController {
     }
 
     /**
+     * 学習TOP画面からの戻るボタン押下時
+     * @param userForm 入出力用フォーム
+     * @param model モデル
+     * @return 表示画面（UserTop）
+     */
+	@RequestMapping(value = "/learningTop", params = "back", method = RequestMethod.POST)
+    public String LearningBack (@Valid @ModelAttribute("form") QuestionForm form, BindingResult result,Model model) {
+
+        //タイトル
+        model.addAttribute("title", "ユーザ画面");
+        return "UserTop";
+
+    }
+
+	/**
      * 学習開始
      * @param userForm 入出力用フォーム
      * @param model モデル
